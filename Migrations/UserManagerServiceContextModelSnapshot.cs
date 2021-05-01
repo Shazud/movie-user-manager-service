@@ -31,7 +31,7 @@ namespace MovieUserManagerService.Migrations
                     b.Property<bool>("isAdmin")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("name")
+                    b.Property<string>("lastname")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

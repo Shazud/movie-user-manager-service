@@ -9,7 +9,7 @@ namespace MovieUserManagerService.Models
         public string username { get; set; }
         [Required]
         [DataType(DataType.Text)]
-        public string name { get; set; }
+        public string lastname { get; set; }
         [Required]
         [DataType(DataType.Text)]
         public string firstname { get; set; }
