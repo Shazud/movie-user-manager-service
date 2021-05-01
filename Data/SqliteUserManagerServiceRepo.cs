@@ -19,7 +19,7 @@ namespace MovieUserManagerService.Data
 
         public User GetUserByUsername(string username)
         {
-            return _context.Users.FirstOrDefault(p => p.username == username );
+            return _context.Users.FirstOrDefault(p => p.username == username);
         }
     }
 }

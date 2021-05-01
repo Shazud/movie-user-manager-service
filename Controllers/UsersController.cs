@@ -24,7 +24,7 @@ namespace MovieUserManagerService.Controllers
         }
 
         //GET api/users/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{username}")]
         public ActionResult <User> GetUserByUsername(string username){
             var user = _repo.GetUserByUsername(username);
             return Ok(user);

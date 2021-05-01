@@ -34,7 +34,7 @@ namespace MovieUserManagerService
 
             services.AddControllers();
 
-            services.AddScoped<IUserManagerServiceRepo, MockUserManagerServiceRepo>();
+            services.AddScoped<IUserManagerServiceRepo, SqliteUserManagerServiceRepo>();
             
             services.AddSwaggerGen(c =>
             {
