@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,8 +29,13 @@ namespace MovieUserManagerService
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<UserManagerServiceContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("MovieUserManagerConnection")));
+
             services.AddControllers();
-            services.AddScoped<IUserManagementServiceRepo, MockUserManagementServiceRepo>();
+
+            services.AddScoped<IUserManagerServiceRepo, MockUserManagerServiceRepo>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieUserManagerService", Version = "v1" });

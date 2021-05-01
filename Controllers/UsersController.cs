@@ -9,9 +9,9 @@ namespace MovieUserManagerService.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserManagementServiceRepo _repo;
+        private readonly IUserManagerServiceRepo _repo;
 
-        public UsersController(IUserManagementServiceRepo repo)
+        public UsersController(IUserManagerServiceRepo repo)
         {
             _repo = repo;
         }

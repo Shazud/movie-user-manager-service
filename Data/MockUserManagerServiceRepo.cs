@@ -3,7 +3,7 @@ using MovieUserManagerService.Models;
 
 namespace MovieUserManagerService.Data
 {
-    public class MockUserManagementServiceRepo : IUserManagementServiceRepo
+    public class MockUserManagerServiceRepo : IUserManagerServiceRepo
     {
         public IEnumerable<User> GetAllUsers()
         {

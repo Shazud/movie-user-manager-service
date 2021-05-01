@@ -3,7 +3,7 @@ using MovieUserManagerService.Models;
 
 namespace MovieUserManagerService.Data
 {
-    public interface IUserManagementServiceRepo
+    public interface IUserManagerServiceRepo
     {
         IEnumerable<User> GetAllUsers();
         User GetUserByUsername(string username);
