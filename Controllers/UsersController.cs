@@ -27,7 +27,7 @@ namespace MovieUserManagerService.Controllers
         [HttpGet("{username}")]
         public ActionResult <User> GetUserByUsername(string username){
             var user = _repo.GetUserByUsername(username);
-            return Ok(user);
+            return user != null ? Ok(user) : NotFound();
         }
     }
 }
