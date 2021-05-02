@@ -10,6 +10,7 @@ namespace MovieUserManagerService.Profiles
         public UsersProfile()
         {
             CreateMap<User, UserReadDto>();
+            CreateMap<UserCreateDto, User>();
         }
     }
 }

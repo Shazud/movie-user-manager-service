@@ -28,10 +28,19 @@ namespace MovieUserManagerService.Controllers
         }
 
         //GET api/users/{username}
-        [HttpGet("{username}")]
+        [HttpGet("{username}", Name="GetUserByUsername")]
         public ActionResult <UserReadDto> GetUserByUsername(string username){
             var user = _repo.GetUserByUsername(username);
             return user != null ? Ok(_mapper.Map<UserReadDto>(user)) : NotFound();
+        }
+
+        //POST api/users
+        [HttpPost]
+        public ActionResult <UserReadDto> CreateUser(UserCreateDto userCreateDto){
+            var userModel = _mapper.Map<User>(userCreateDto);
+            _repo.CreateUser(userModel);
+            var userReadDto = _mapper.Map<UserReadDto>(userModel);
+            return CreatedAtRoute(nameof(GetUserByUsername), new {username = userReadDto.username}, userReadDto);
         }
     }
 }

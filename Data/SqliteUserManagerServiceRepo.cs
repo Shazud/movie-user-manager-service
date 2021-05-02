@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MovieUserManagerService.Models;
@@ -12,6 +13,16 @@ namespace MovieUserManagerService.Data
         {
             _context = context;
         }
+
+        public void CreateUser(User user)
+        {
+            if(user == null){
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            _context.Users.Add(user);
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             return _context.Users.ToList();
@@ -20,6 +31,11 @@ namespace MovieUserManagerService.Data
         public User GetUserByUsername(string username)
         {
             return _context.Users.FirstOrDefault(p => p.username == username);
+        }
+
+        public bool SaveChanges()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }
