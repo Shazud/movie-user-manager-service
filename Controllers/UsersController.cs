@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MovieUserManagerService.Data;
 using MovieUserManagerService.Models;
+using MovieUserManagerService.Read;
 
 namespace MovieUserManagerService.Controllers
 {
@@ -10,24 +12,26 @@ namespace MovieUserManagerService.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserManagerServiceRepo _repo;
+        private readonly IMapper _mapper;
 
-        public UsersController(IUserManagerServiceRepo repo)
+        public UsersController(IUserManagerServiceRepo repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
         //GET api/users
         [HttpGet]
-        public ActionResult <IEnumerable<User>> GetAllUsers(){
+        public ActionResult <IEnumerable<UserReadDto>> GetAllUsers(){
             var users = _repo.GetAllUsers();
-            return Ok(users);
+            return Ok(_mapper.Map<IEnumerable<UserReadDto>>(users));
         }
 
-        //GET api/users/{id}
+        //GET api/users/{username}
         [HttpGet("{username}")]
-        public ActionResult <User> GetUserByUsername(string username){
+        public ActionResult <UserReadDto> GetUserByUsername(string username){
             var user = _repo.GetUserByUsername(username);
-            return user != null ? Ok(user) : NotFound();
+            return user != null ? Ok(_mapper.Map<UserReadDto>(user)) : NotFound();
         }
     }
 }

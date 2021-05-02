@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AutoMapper;
 using MovieUserManagerService.Models;
 using MovieUserManagerService.Read;
