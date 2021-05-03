@@ -37,5 +37,10 @@ namespace MovieUserManagerService.Data
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public void UpdateUser(User user)
+        {
+
+        }
     }
 }

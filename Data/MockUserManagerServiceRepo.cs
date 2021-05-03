@@ -31,5 +31,10 @@ namespace MovieUserManagerService.Data
         {
             throw new System.NotImplementedException();
         }
+
+        public void UpdateUser(User user)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

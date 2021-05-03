@@ -9,5 +9,6 @@ namespace MovieUserManagerService.Data
         IEnumerable<User> GetAllUsers();
         User GetUserByUsername(string username);
         void CreateUser(User user);
+        void UpdateUser(User user);
     }
 }
