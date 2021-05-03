@@ -39,6 +39,7 @@ namespace MovieUserManagerService.Controllers
         public ActionResult <UserReadDto> CreateUser(UserCreateDto userCreateDto){
             var userModel = _mapper.Map<User>(userCreateDto);
             _repo.CreateUser(userModel);
+            _repo.SaveChanges();
             var userReadDto = _mapper.Map<UserReadDto>(userModel);
             return CreatedAtRoute(nameof(GetUserByUsername), new {username = userReadDto.username}, userReadDto);
         }
