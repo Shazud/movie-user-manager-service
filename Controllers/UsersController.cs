@@ -90,5 +90,20 @@ namespace MovieUserManagerService.Controllers
 
             return NoContent();
         }
+
+        //DELETE api/users/{username}
+        [HttpDelete("{username}")]
+        public ActionResult DeleteUser(string username){
+            var targetUser = _repo.GetUserByUsername(username);
+            if(targetUser == null)
+            {
+                return NotFound();
+            }
+
+            _repo.DeleteUser(targetUser);
+            _repo.SaveChanges();
+
+            return NoContent();
+        }
     }
 }
