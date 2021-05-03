@@ -13,7 +13,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MovieUserManagerService.Data;
+using MovieUserManagerService.Options;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MovieUserManagerService
 {
@@ -39,6 +44,25 @@ namespace MovieUserManagerService
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            var jwtOptions = new JwtOptions();
+            Configuration.Bind(nameof(jwtOptions), jwtOptions);
+            services.AddSingleton(jwtOptions);
+            services.AddAuthentication(a => {
+                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(a => {
+                a.SaveToken = true;
+                a.TokenValidationParameters = new TokenValidationParameters{
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true
+                };
+            });
+
             services.AddScoped<IUserManagerServiceRepo, SqliteUserManagerServiceRepo>();
             
             services.AddSwaggerGen(c =>
@@ -62,6 +86,8 @@ namespace MovieUserManagerService
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
