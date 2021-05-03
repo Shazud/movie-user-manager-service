@@ -5,6 +5,11 @@ namespace MovieUserManagerService.Data
 {
     public class MockUserManagerServiceRepo : IUserManagerServiceRepo
     {
+        public void CreateUser(User user)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             var users = new List<User>
@@ -20,6 +25,16 @@ namespace MovieUserManagerService.Data
         public User GetUserByUsername(string username)
         {
             return new User{username="test", lastname="Name", firstname="FName", password="password"};
+        }
+
+        public bool SaveChanges()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateUser(User user)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

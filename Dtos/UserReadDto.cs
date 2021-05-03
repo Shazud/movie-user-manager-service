@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace MovieUserManagerService.Read
 {
     public class UserReadDto
