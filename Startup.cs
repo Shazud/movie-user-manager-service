@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MovieUserManagerService.Data;
+using Newtonsoft.Json.Serialization;
 
 namespace MovieUserManagerService
 {
@@ -32,7 +33,9 @@ namespace MovieUserManagerService
             services.AddDbContext<UserManagerServiceContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("MovieUserManagerConnection")));
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

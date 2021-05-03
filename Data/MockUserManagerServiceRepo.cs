@@ -10,6 +10,11 @@ namespace MovieUserManagerService.Data
             throw new System.NotImplementedException();
         }
 
+        public void DeleteUser(User user)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public IEnumerable<User> GetAllUsers()
         {
             var users = new List<User>

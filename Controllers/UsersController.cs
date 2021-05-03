@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using MovieUserManagerService.Data;
 using MovieUserManagerService.Models;
@@ -49,14 +50,57 @@ namespace MovieUserManagerService.Controllers
 
         //PUT api/users/{username}
         [HttpPut("{username}")]
-        public ActionResult UpdateUser(string username, UserUpdateDto userUpdateDto){
+        public ActionResult UpdateUser(string username, UserUpdateDto userUpdateDto)
+        {
             var targetUser = _repo.GetUserByUsername(username);
-            if(targetUser == null){
+            if(targetUser == null)
+            {
                 return NotFound();
             }
 
             _mapper.Map(userUpdateDto, targetUser);
             _repo.UpdateUser(targetUser);
+            _repo.SaveChanges();
+
+            return NoContent();
+        }
+
+        //PATCH api/users/{username}
+        [HttpPatch("{username}")]
+        public ActionResult PatchUser(string username, JsonPatchDocument<UserUpdateDto> patchDocument)
+        {
+            var targetUser = _repo.GetUserByUsername(username);
+            if(targetUser == null)
+            {
+                return NotFound();
+            }
+
+            var userUpdateModel = _mapper.Map<UserUpdateDto>(targetUser);
+            userUpdateModel.passwordConfirmation = userUpdateModel.password;
+
+            patchDocument.ApplyTo(userUpdateModel, ModelState);
+            if(!TryValidateModel(userUpdateModel))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(userUpdateModel, targetUser);
+            _repo.UpdateUser(targetUser);
+            _repo.SaveChanges();
+
+            return NoContent();
+        }
+
+        //DELETE api/users/{username}
+        [HttpDelete("{username}")]
+        public ActionResult DeleteUser(string username){
+            var targetUser = _repo.GetUserByUsername(username);
+            if(targetUser == null)
+            {
+                return NotFound();
+            }
+
+            _repo.DeleteUser(targetUser);
             _repo.SaveChanges();
 
             return NoContent();
