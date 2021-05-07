@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MovieUserManagerService.Read
+namespace MovieUserManagerService.Dtos
 {
     public class UserLoginDto
     {

@@ -1,4 +1,4 @@
-namespace MovieUserManagerService.Read
+namespace MovieUserManagerService.Dtos
 {
     public class UserReadDto
     {
