@@ -1,6 +1,6 @@
 namespace MovieUserManagerService.Services
 {
-    public interface IIdentityService
+    public interface IAuthenticationService
     {
         
     }
