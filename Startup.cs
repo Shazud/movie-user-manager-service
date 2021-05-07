@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Swashbuckle.AspNetCore.Swagger;
+using MovieUserManagerService.Services;
 
 namespace MovieUserManagerService
 {
@@ -63,8 +64,11 @@ namespace MovieUserManagerService
                 };
             });
 
+            services.AddScoped<IIdentityService, IdentityService>();
+
+
             services.AddScoped<IUserManagerServiceRepo, SqliteUserManagerServiceRepo>();
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieUserManagerService", Version = "v1" });
