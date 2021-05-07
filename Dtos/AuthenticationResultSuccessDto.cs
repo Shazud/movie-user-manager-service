@@ -1,6 +1,6 @@
 namespace MovieUserManagerService.Dtos
 {
-    public class AuthenticatioNResultSuccess
+    public class AuthenticatioNResultSuccessDto
     {
         public string token { get; set; }
         public bool success { get; set; }
