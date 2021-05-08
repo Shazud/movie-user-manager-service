@@ -16,6 +16,13 @@ namespace MovieUserManagerService.Services
         {
             _jwt = jwt;
         }
+
+        public bool ComparePasswords(string a, string b)
+        {
+            //TODO: Add hashing
+            return a == b;
+        }
+
         public string CreateToken(User user)
         {
             var key = Encoding.ASCII.GetBytes(_jwt.Secret);
@@ -37,6 +44,12 @@ namespace MovieUserManagerService.Services
 
 
             return tokenHandler.WriteToken(token);
+        }
+
+        public string HashPassword(string password)
+        {
+            //TODO: Add hashing
+            return password;
         }
     }
 }

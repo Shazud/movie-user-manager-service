@@ -122,6 +122,7 @@ namespace MovieUserManagerService.Controllers
             {
                 return BadRequest(new {error = ErrorMessages.userExists});
             }
+            userModel.password = _auth.HashPassword(userModel.password);
             _repo.CreateUser(userModel);
             _repo.SaveChanges();
 
@@ -136,7 +137,7 @@ namespace MovieUserManagerService.Controllers
 
 
         //POST api/users/register
-        [HttpPost("/register")]
+        [HttpPost("register")]
         public ActionResult <AuthenticationResult> UserRegister(UserCreateDto userCreateDto)
         {
             return CreateUser(userCreateDto);
@@ -144,12 +145,21 @@ namespace MovieUserManagerService.Controllers
 
 
         //POST api/users/login
-        // [HttpPost("/login")]
-        // public ActionResult UserLogin(UserLoginDto userLoginDto)
-        // {
-        //     UserManager 
-        //     var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Secret)));
-        //     return Ok();
-        // }
+        [HttpPost("login")]
+        public ActionResult UserLogin(UserLoginDto userLoginDto)
+        {
+            var target = _repo.GetUserByUsername(userLoginDto.username);
+            if(target != null && _auth.ComparePasswords(userLoginDto.password, target.password))
+            {
+                return Ok(new AuthenticationResultSuccessDto{
+                    success = true,
+                    token = _auth.CreateToken(target)
+                });
+            }
+            
+            return Unauthorized(new AuthenticationResultFailedDto(){
+                errors = new []{ErrorMessages.invalidCredentials}
+            });
+        }
     }
 }
