@@ -13,6 +13,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System;
 using System.Security.Claims;
 using MovieUserManagerService.Services;
+using MovieUserManagerService.Utils;
 
 namespace MovieUserManagerService.Controllers
 {
@@ -119,7 +120,7 @@ namespace MovieUserManagerService.Controllers
             var userModel = _mapper.Map<User>(userCreateDto);
             if(_repo.GetUserByUsername(userModel.username) != null)
             {
-                return BadRequest(new {error = "User already exists!"});
+                return BadRequest(new {error = ErrorMessages.userExists});
             }
             _repo.CreateUser(userModel);
             _repo.SaveChanges();

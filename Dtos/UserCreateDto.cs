@@ -23,7 +23,7 @@ namespace MovieUserManagerService.Dtos
         public string passwordConfirmation { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
-        [RegularExpression(RegularExpressions.email)]
+        [RegularExpression(RegularExpressions.email, ErrorMessage = ErrorMessages.emailFormat)]
         public string email { get; set; }
         [Required]
         [DataType(DataType.Text)]
