@@ -64,9 +64,6 @@ namespace MovieUserManagerService
                 };
             });
 
-            services.AddScoped<IAuthenticationService, IAuthenticationService>();
-
-
             services.AddScoped<IUserManagerServiceRepo, SqliteUserManagerServiceRepo>();
 
             services.AddSwaggerGen(c =>
