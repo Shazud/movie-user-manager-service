@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using MovieUserManagerService.Models;
-using MovieUserManagerService.Read;
+using MovieUserManagerService.Dtos;
 
 namespace MovieUserManagerService.Profiles
 {
