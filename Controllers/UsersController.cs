@@ -22,9 +22,9 @@ namespace MovieUserManagerService.Controllers
     {
         private readonly IUserManagerServiceRepo _repo;
         private readonly IMapper _mapper;
-        private readonly IAuthenticationService _auth;
+        private readonly IUserAuthenticationService _auth;
 
-        public UsersController(IUserManagerServiceRepo repo, IMapper mapper, IAuthenticationService auth)
+        public UsersController(IUserManagerServiceRepo repo, IMapper mapper, IUserAuthenticationService auth)
         {
             _repo = repo;
             _mapper = mapper;

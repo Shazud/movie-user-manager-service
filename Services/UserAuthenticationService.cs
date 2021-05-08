@@ -8,11 +8,11 @@ using MovieUserManagerService.Settings;
 
 namespace MovieUserManagerService.Services
 {
-    public class AuthenticationService : IAuthenticationService
+    public class UserAuthenticationService : IUserAuthenticationService
     {
         private readonly JwtSettings _jwt;
 
-        public AuthenticationService(JwtSettings jwt)
+        public UserAuthenticationService(JwtSettings jwt)
         {
             _jwt = jwt;
         }

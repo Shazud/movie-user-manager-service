@@ -57,7 +57,7 @@ namespace MovieUserManagerService
                 };
             });
 
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 
             services.AddScoped<IUserManagerServiceRepo, SqliteUserManagerServiceRepo>();
 

@@ -2,7 +2,7 @@ using MovieUserManagerService.Models;
 
 namespace MovieUserManagerService.Services
 {
-    public interface IAuthenticationService
+    public interface IUserAuthenticationService
     {
         string CreateToken(User user);
     }
