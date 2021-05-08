@@ -17,10 +17,9 @@ namespace MovieUserManagerService.Services
             _jwt = jwt;
         }
 
-        public bool ComparePasswords(string a, string b)
+        public bool ComparePasswords(string pass, string hash)
         {
-            //TODO: Add hashing
-            return a == b;
+            return BCrypt.Net.BCrypt.Verify(pass, hash);
         }
 
         public string CreateToken(User user)
@@ -48,8 +47,7 @@ namespace MovieUserManagerService.Services
 
         public string HashPassword(string password)
         {
-            //TODO: Add hashing
-            return password;
+            return BCrypt.Net.BCrypt.HashPassword(password, workFactor: 14);
         }
     }
 }
