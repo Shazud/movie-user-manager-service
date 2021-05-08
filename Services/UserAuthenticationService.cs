@@ -25,7 +25,7 @@ namespace MovieUserManagerService.Services
                 Subject = new ClaimsIdentity(new []{
                     new Claim(JwtRegisteredClaimNames.Sub, user.username),
                     new Claim("id", user.username),
-                    new Claim("isAdmin", user.isAdmin.ToString())
+                    new Claim("role", user.role)
                 }),
                 Expires = DateTime.Now.AddMinutes(60),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

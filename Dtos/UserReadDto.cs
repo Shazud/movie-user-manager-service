@@ -6,6 +6,7 @@ namespace MovieUserManagerService.Dtos
         public string lastname { get; set; }
         public string firstname { get; set; }
         public string email { get; set; }
-        public bool isAdmin { get; set; }
+        public string role { get; set; }
+        public string image { get; set; }
     }
 }

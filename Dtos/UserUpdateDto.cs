@@ -26,6 +26,10 @@ namespace MovieUserManagerService.Dtos
         [RegularExpression(RegularExpressions.email)]
         public string email { get; set; }
         [Required]
-        public bool isAdmin { get; set; }
+        [DataType(DataType.Text)]
+        public string role { get; set; }
+        [Required]
+        [DataType(DataType.Text)]
+        public string image { get; set; }
     }
 }
