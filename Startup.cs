@@ -1,24 +1,17 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MovieUserManagerService.Data;
-using MovieUserManagerService.Options;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Swashbuckle.AspNetCore.Swagger;
+using MovieUserManagerService.Settings;
 using MovieUserManagerService.Services;
 
 namespace MovieUserManagerService
@@ -45,9 +38,9 @@ namespace MovieUserManagerService
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            var jwtOptions = new JwtOptions();
-            Configuration.Bind(nameof(jwtOptions), jwtOptions);
-            services.AddSingleton(jwtOptions);
+            var jwtSettings = new JwtSettings();
+            Configuration.Bind(nameof(jwtSettings), jwtSettings);
+            services.AddSingleton(jwtSettings);
             services.AddAuthentication(a => {
                 a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 a.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,13 +49,15 @@ namespace MovieUserManagerService
                 a.SaveToken = true;
                 a.TokenValidationParameters = new TokenValidationParameters{
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.Secret)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     RequireExpirationTime = false,
                     ValidateLifetime = true
                 };
             });
+
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             services.AddScoped<IUserManagerServiceRepo, SqliteUserManagerServiceRepo>();
 

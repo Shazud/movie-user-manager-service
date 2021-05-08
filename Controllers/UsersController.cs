@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using MovieUserManagerService.Data;
 using MovieUserManagerService.Models;
 using MovieUserManagerService.Dtos;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using System.Text.RegularExpressions;
 using System.Text;
@@ -13,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System;
 using System.Security.Claims;
+using MovieUserManagerService.Services;
 
 namespace MovieUserManagerService.Controllers
 {
@@ -22,12 +22,13 @@ namespace MovieUserManagerService.Controllers
     {
         private readonly IUserManagerServiceRepo _repo;
         private readonly IMapper _mapper;
+        private readonly IAuthenticationService _auth;
 
-
-        public UsersController(IUserManagerServiceRepo repo, IMapper mapper)
+        public UsersController(IUserManagerServiceRepo repo, IMapper mapper, IAuthenticationService auth)
         {
             _repo = repo;
             _mapper = mapper;
+            _auth = auth;
         }
 
 
@@ -126,28 +127,10 @@ namespace MovieUserManagerService.Controllers
             //var userReadDto = _mapper.Map<UserReadDto>(userModel);
             //return CreatedAtRoute(nameof(GetUserByUsername), new {username = userReadDto.username}, userReadDto);
 
-
-            var key = Encoding.ASCII.GetBytes("TODO:weNeedToChangeThisKeyLater.");
-            var authenticationResult = new AuthenticationResultSuccessDto();
-
-            var securityTokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new []{
-                    new Claim(JwtRegisteredClaimNames.Sub, userModel.username),
-                    new Claim("id", userModel.username),
-                    new Claim("isAdmin", userModel.isAdmin.ToString())
-                }),
-                Expires = DateTime.Now.AddMinutes(60),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            
-            
-            //authenticationResult.token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(securityTokenDescriptor);
-            authenticationResult.token = tokenHandler.WriteToken(token);
-            authenticationResult.success = true;
-            return Ok(authenticationResult);
+            return Ok(new AuthenticationResultSuccessDto{
+                success = true,
+                token = _auth.CreateToken(userModel)
+            });
         }
 
 
