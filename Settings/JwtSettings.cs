@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace MovieUserManagerService.Settings
 {
     public class JwtSettings

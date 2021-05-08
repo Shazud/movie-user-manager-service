@@ -46,6 +46,15 @@ namespace MovieUserManagerService.Controllers
         [HttpGet("{username}", Name="GetUserByUsername")]
         public ActionResult <UserReadDto> GetUserByUsername(string username)
         {
+            var token = _auth.GetToken(HttpContext);
+            if(token == string.Empty)
+            {
+                return Unauthorized(new {error = ErrorMessages.userNotLoggedIn});
+            }
+            if(_auth.GetTokenClaimValue(token, "id") != username)
+            {
+                return Unauthorized();
+            }
             var user = _repo.GetUserByUsername(username);
             return user != null ? Ok(_mapper.Map<UserReadDto>(user)) : NotFound();
         }
@@ -100,6 +109,15 @@ namespace MovieUserManagerService.Controllers
         [HttpDelete("{username}")]
         public ActionResult DeleteUser(string username)
         {
+            var token = _auth.GetToken(HttpContext);
+            if(token == string.Empty)
+            {
+                return Unauthorized(new {error = ErrorMessages.userNotLoggedIn});
+            }
+            if(_auth.GetTokenClaimValue(token, "id") != username)
+            {
+                return Unauthorized();
+            }
             var targetUser = _repo.GetUserByUsername(username);
             if(targetUser == null)
             {
@@ -156,7 +174,7 @@ namespace MovieUserManagerService.Controllers
                     token = _auth.CreateToken(target)
                 });
             }
-            
+
             return Unauthorized(new AuthenticationResultFailedDto(){
                 errors = new []{ErrorMessages.invalidCredentials}
             });

@@ -6,5 +6,6 @@ namespace MovieUserManagerService.Utils
         public const string emailFormat = "Invalid email address!";
         public const string userExists = "Username is already used!";
         internal static string invalidCredentials =  "Invalid username or password!";
+        internal static string userNotLoggedIn = "User not logged in!";
     }
 }

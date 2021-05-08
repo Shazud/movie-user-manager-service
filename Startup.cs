@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MovieUserManagerService.Settings;
 using MovieUserManagerService.Services;
+using System.Collections.Generic;
 
 namespace MovieUserManagerService
 {
