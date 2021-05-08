@@ -12,6 +12,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using System.Security.Claims;
 
 namespace MovieUserManagerService.Controllers
 {
@@ -115,22 +116,36 @@ namespace MovieUserManagerService.Controllers
         public ActionResult <AuthenticationResult> CreateUser(UserCreateDto userCreateDto)
         {
             var userModel = _mapper.Map<User>(userCreateDto);
+            if(_repo.GetUserByUsername(userModel.username) != null)
+            {
+                return BadRequest(new {error = "User already exists!"});
+            }
             _repo.CreateUser(userModel);
             _repo.SaveChanges();
 
             //var userReadDto = _mapper.Map<UserReadDto>(userModel);
             //return CreatedAtRoute(nameof(GetUserByUsername), new {username = userReadDto.username}, userReadDto);
 
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TODO:weNeedToChangeThisKeyLater."));
-            var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
-            var tokenOptions = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(50),
-                signingCredentials: signingCredentials
-            );
-
+            var key = Encoding.ASCII.GetBytes("TODO:weNeedToChangeThisKeyLater.");
             var authenticationResult = new AuthenticationResultSuccessDto();
-            authenticationResult.token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);;
+
+            var securityTokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new []{
+                    new Claim(JwtRegisteredClaimNames.Sub, userModel.username),
+                    new Claim("id", userModel.username),
+                    new Claim("isAdmin", userModel.isAdmin.ToString())
+                }),
+                Expires = DateTime.Now.AddMinutes(60),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            
+            
+            //authenticationResult.token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(securityTokenDescriptor);
+            authenticationResult.token = tokenHandler.WriteToken(token);
             authenticationResult.success = true;
             return Ok(authenticationResult);
         }
