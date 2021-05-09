@@ -18,7 +18,9 @@ namespace MovieUserManagerService.Controllers
         [HttpPost]
         public ActionResult ValidateToken(Token token)
         {
-            return Ok();
+            return _auth.ValidateToken(token.token) != string.Empty 
+                    ? Ok(new {ok = true})
+                    : Ok(new {ok = false});
         }
     }
 }
