@@ -14,6 +14,7 @@ using System;
 using System.Security.Claims;
 using MovieUserManagerService.Services;
 using MovieUserManagerService.Utils;
+using System.Linq;
 
 namespace MovieUserManagerService.Controllers
 {
@@ -178,6 +179,30 @@ namespace MovieUserManagerService.Controllers
             return Unauthorized(new AuthenticationResultFailedDto(){
                 errors = new []{ErrorMessages.invalidCredentials}
             });
+        }
+
+        [HttpGet("email/{username}")]
+        public ActionResult GetUserEmail(string username)
+        {
+            var user = _repo.GetUserByUsername(username);
+            if(user == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(_mapper.Map<UserEmailDto>(user));
+        }
+
+        [HttpGet("email")]
+        public ActionResult GetAllUsersEmail()
+        {
+            return Ok(_repo.GetAllUsers().Select(u => _mapper.Map<UserEmailDto>(u)));
+        }
+
+        [HttpGet("newsletter")]
+        public ActionResult GetAllNewsletterUsersEmail()
+        {
+            return Ok(_repo.GetAllUsers().Select(u => _mapper.Map<UserEmailDto>(u)).Where(u => u.newsletter == true));
         }
     }
 }
