@@ -20,7 +20,7 @@ namespace MovieUserManagerService.Controllers
         {
             return _auth.ValidateToken(token.token) != string.Empty 
                     ? Ok(new {ok = true})
-                    : Ok(new {ok = false});
+                    : Unauthorized(new {ok = false});
         }
     }
 }
