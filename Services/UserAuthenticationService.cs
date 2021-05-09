@@ -69,6 +69,11 @@ namespace MovieUserManagerService.Services
         public string GetToken(HttpContext httpContext)
         {
             var token =  httpContext.Request.Headers["authorization"];
+            return ValidateToken(token);
+        }
+
+        public string ValidateToken(string token)
+        {
             if(token == string.Empty)
             {
                 return string.Empty;
