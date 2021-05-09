@@ -31,5 +31,7 @@ namespace MovieUserManagerService.Dtos
         [Required]
         [DataType(DataType.Text)]
         public string image { get; set; }
+        [Required]
+        public bool newsletter { get; set; }
     }
 }
