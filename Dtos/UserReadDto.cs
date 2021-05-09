@@ -8,5 +8,6 @@ namespace MovieUserManagerService.Dtos
         public string email { get; set; }
         public string role { get; set; }
         public string image { get; set; }
+        public bool newsletter { get; set; }
     }
 }
