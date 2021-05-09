@@ -179,5 +179,17 @@ namespace MovieUserManagerService.Controllers
                 errors = new []{ErrorMessages.invalidCredentials}
             });
         }
+
+        [HttpGet("email/{username}")]
+        public ActionResult GetUserEmail(string username)
+        {
+            var user = _repo.GetUserByUsername(username);
+            if(user == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(_mapper.Map<UserEmailDto>(user));
+        }
     }
 }
