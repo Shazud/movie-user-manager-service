@@ -10,5 +10,6 @@ namespace MovieUserManagerService.Services
         bool ComparePasswords(string a, string b);
         public string GetTokenClaimValue(string token, string claim);
         public string GetToken(HttpContext httpContext);
+        public string ValidateToken(string token);
     }
 }
