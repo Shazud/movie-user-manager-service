@@ -4,7 +4,7 @@ using MovieUserManagerService.Services;
 
 namespace MovieUserManagerService.Controllers
 {
-    [Route("api/token")]
+    [Route("api/")]
     [ApiController]
     public class TokenValidationController : ControllerBase
     {
@@ -15,10 +15,18 @@ namespace MovieUserManagerService.Controllers
             _auth = auth;
         }
 
-        [HttpPost]
+        [HttpPost("token")]
         public ActionResult ValidateToken(Token token)
         {
             return _auth.ValidateToken(token.token) != string.Empty 
+                    ? Ok(new {ok = true})
+                    : Unauthorized(new {ok = false});
+        }
+
+        [HttpPost("validate")]
+        public ActionResult ValidateTokenAndUsername(Token token)
+        {
+            return _auth.ValidateToken(token.token) != string.Empty && _auth.GetTokenClaimValue(token.token, "id") == token.username
                     ? Ok(new {ok = true})
                     : Unauthorized(new {ok = false});
         }
