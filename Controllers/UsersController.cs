@@ -90,7 +90,6 @@ namespace MovieUserManagerService.Controllers
             }
 
             var userUpdateModel = _mapper.Map<UserUpdateDto>(targetUser);
-            userUpdateModel.passwordConfirmation = userUpdateModel.password;
 
             patchDocument.ApplyTo(userUpdateModel, ModelState);
             if(!TryValidateModel(userUpdateModel))
