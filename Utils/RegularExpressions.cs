@@ -2,6 +2,6 @@ namespace MovieUserManagerService.Utils
 {
     public static class RegularExpressions
     {
-        public const string email = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+[.][a-zA-Z0-9]+$";
+        public const string email = "[^@ \t\r\n]+@[^@ \t\r\n]+.[^@ \t\r\n]+";
     }
 }
